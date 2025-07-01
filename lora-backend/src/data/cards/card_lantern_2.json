@@ -1,0 +1,9 @@
+{
+    "id":  "card_lantern_2",
+    "baseType":  "Artifact",
+    "text":  "Toca, sacrifica el Farol del Viajero: Elige un color. Añade un maná de ese color a tu reserva de maná.",
+    "name":  "Farol del Viajero",
+    "manaCost":  {
+                     "C":  0
+                 }
+}

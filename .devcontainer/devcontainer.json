@@ -1,0 +1,12 @@
+{
+    "name": "Angular + Node API",
+    "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+    "features": {
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    },
+    "postCreateCommand": "npm install -g @angular/cli && cd lora-frontend && npm install && cd ../lora-backend && npm install",
+    "postStartCommand": "./.devcontainer/start.sh",
+    "ports": [4200, 3000],
+    "forwardPorts": [4200, 3000],
+  }
+  

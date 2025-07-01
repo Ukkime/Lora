@@ -1,0 +1,30 @@
+{
+    "id":  "card_chandra_1",
+    "baseType":  "Planeswalker",
+    "manaCost":  {
+                     "R":  4
+                 },
+    "initialLoyalty":  5,
+    "loyaltyAbilities":  [
+                             {
+                                 "cost":  1,
+                                 "description":  "+1: Chandra, la Flamígera hace 1 punto de daño a cualquier objetivo.",
+                                 "name":  "Ráfaga de Fuego",
+                                 "type":  "plus"
+                             },
+                             {
+                                 "cost":  3,
+                                 "description":  "-3: Descarta hasta dos cartas. Chandra, la Flamígera hace daño a la criatura objetivo igual al número de cartas descartadas de esta manera.",
+                                 "name":  "Incinerar Mentes",
+                                 "type":  "minus"
+                             },
+                             {
+                                 "cost":  8,
+                                 "description":  "-8: Haz 10 puntos de daño a cada oponente y a cada criatura que controlan.",
+                                 "name":  "Tormenta de Lava",
+                                 "type":  "ultimate"
+                             }
+                         ],
+    "name":  "Chandra, la Flamígera",
+    "text":  "Chandra, la Flamígera entra con 5 contadores de lealtad."
+}

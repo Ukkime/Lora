@@ -1,0 +1,10 @@
+{
+    "id":  "card_island_1",
+    "name":  "Isla Brillante",
+    "text":  "Endereza para añadir un maná azul.",
+    "baseType":  "Land",
+    "providesMana":  "U",
+    "manaCost":  {
+
+                 }
+}

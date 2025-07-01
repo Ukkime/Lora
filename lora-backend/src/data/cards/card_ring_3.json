@@ -1,0 +1,9 @@
+{
+    "id":  "card_ring_3",
+    "baseType":  "Artifact",
+    "text":  "Equipar {2} (Adjuntar a criatura objetivo que controlas). La criatura equipada obtiene +1/+1.",
+    "name":  "Anillo de Hierro",
+    "manaCost":  {
+                     "C":  1
+                 }
+}

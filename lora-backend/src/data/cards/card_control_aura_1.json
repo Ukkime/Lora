@@ -1,0 +1,10 @@
+{
+    "id":  "card_control_aura_1",
+    "baseType":  "Enchantment",
+    "text":  "Cuando el Dominio Mental entra al campo de batalla, el oponente objetivo no puede lanzar hechizos el próximo turno.",
+    "name":  "Dominio Mental",
+    "manaCost":  {
+                     "U":  1,
+                     "C":  2
+                 }
+}

@@ -1,0 +1,9 @@
+{
+    "id":  "card_aura_str_3",
+    "baseType":  "Enchantment",
+    "text":  "Encantar criatura. La criatura encantada obtiene +1/+1.",
+    "name":  "Aura de Fuerza",
+    "manaCost":  {
+                     "W":  1
+                 }
+}

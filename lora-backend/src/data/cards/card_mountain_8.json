@@ -1,0 +1,10 @@
+{
+    "id":  "card_mountain_8",
+    "name":  "Pico Volcánico",
+    "text":  "Endereza para añadir un maná rojo.",
+    "baseType":  "Land",
+    "providesMana":  "R",
+    "manaCost":  {
+
+                 }
+}
