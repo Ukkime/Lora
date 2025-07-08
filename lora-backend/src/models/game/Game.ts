@@ -26,15 +26,10 @@ export class Game {
   public lastActionPlayerId: string | null = null; // To track who last acted on the stack for priority passing
 
   constructor(
-    player1Name: string,
-    player2Name: string,
-    player1Deck: Card[],
-    player2Deck: Card[]
+    player1: Player,
+    player2: Player,
   ) {
-    this.players = [
-      new Player("p1", player1Name, player1Deck),
-      new Player("p2", player2Name, player2Deck),
-    ];
+    this.players = [player1, player2];
     this.activePlayer = this.players[0]; // Player 1 starts
     this.nonActivePlayer = this.players[1];
     this.currentPhase = TurnPhase.Untap;
@@ -545,6 +540,9 @@ export class Game {
    */
   public getGameStateForPlayer(requestingPlayerId: string): any {
     const publicState = this.getGameState(); // Start with the public state
+
+    // LOG: imprime los IDs de los jugadores en la partida
+    console.log('[Game] Jugadores en la partida:', this.players.map(p => p.id));
 
     // Find the requesting player and their opponent
     const requestingPlayer = this.getPlayerById(requestingPlayerId);

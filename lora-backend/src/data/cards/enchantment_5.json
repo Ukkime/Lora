@@ -1,0 +1,11 @@
+{
+    "id":  "enchantment_5",
+    "name":  "Bendición",
+    "text":  "Encantar criatura: gana +1/+1 mientras dure el turno.",
+    "baseType":  "Enchantment",
+    "faction":  "dwarf",
+    "rarity":  "mythic",
+    "manaCost":  {
+                     "W":  1
+                 }
+}

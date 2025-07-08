@@ -10,12 +10,13 @@ import { ManaCost } from "../types/interfaces";
 import { Player } from "../models/players/Player"; // Necesario para el "dummy player" al instanciar cartas
 import fs from "fs"; // Módulo de Node.js para interactuar con el sistema de archivos
 import path from "path"; // Módulo de Node.js para trabajar con rutas de archivos
+import { ArtifactCard } from "../models/cards/ArtifactCard";
 
 /**
  * Define la estructura esperada de los datos de una carta en los archivos JSON.
  * Esta interfaz asegura que los JSON que leemos cumplen con un contrato.
  */
-interface CardJsonData {
+export interface CardJsonData {
   id: string;
   name: string;
   baseType:
@@ -32,6 +33,10 @@ interface CardJsonData {
   providesMana?: ManaColor;
   initialLoyalty?: number;
   loyaltyAbilities?: LoyaltyAbility[];
+  // Nuevos atributos opcionales
+  rarity?: string;
+  faction?: string;
+  price?: number; // Precio de la carta (tokens)
 }
 
 /**
@@ -71,9 +76,13 @@ class CardService {
         const filePath = path.join(cardsDirPath, file);
         const fileContent = fs.readFileSync(filePath, "utf8"); // Lee el contenido como string UTF-8
         const cardData: CardJsonData = JSON.parse(fileContent); // Parse el JSON a un objeto CardJsonData
+        // Asegura que cada carta tenga un campo price (por defecto 10)
+        if (typeof cardData.price !== "number") {
+          cardData.price = 10;
+        }
         this.allCardDefinitions.set(cardData.id, cardData); // Almacena la definición por su ID
         console.log(
-          `- Definición de carta cargada: "${cardData.name}" (ID: ${cardData.id}, Tipo Base: ${cardData.baseType})`
+          `- Definición de carta cargada: "${cardData.name}" (ID: ${cardData.id}, Tipo Base: ${cardData.baseType}, Precio: ${cardData.price})`
         );
       }
     } catch (error: any) {
@@ -214,6 +223,15 @@ class CardService {
         );
       case "Enchantment":
         return new EnchantmentCard(
+          cardData.id,
+          cardData.name,
+          cardData.manaCost,
+          cardTypes,
+          cardData.text,
+          owner
+        );
+      case "Artifact":
+        return new ArtifactCard(
           cardData.id,
           cardData.name,
           cardData.manaCost,

@@ -1,0 +1,82 @@
+/* src/app/modules/deck/owned-cards/owned-cards.component.css */
+
+/* Fuente temática Cinzel */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cinzel+Decorative:wght@700&display=swap');
+
+/* Fondo medieval igual a selector */
+.selector-background {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #232526 0%, #414345 100%), url('/assets/img/bg-parchment.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 0 40px 0;
+  font-family: 'Cinzel', serif;
+}
+
+.selector-card {
+  background: rgba(30, 24, 18, 0.93);
+  border-radius: 16px;
+  border: 2.5px solid #d4af37;
+  box-shadow: 0 6px 24px 0 rgba(0,0,0,0.7), 0 0 12px 3px #d4af3780;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 900px;
+  width: 100%;
+  margin: 32px 0;
+  font-family: 'Cinzel', serif;
+}
+
+h1, h2 {
+  color: #d4af37;
+  text-shadow: 0 2px 8px #000, 0 0 8px #d4af37aa;
+  font-family: 'Cinzel Decorative', cursive;
+  letter-spacing: 1.5px;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #d4af37;
+  margin: 2rem 0 1.2rem 0;
+  box-shadow: 0 1px 6px #d4af3755;
+}
+
+.cards-section {
+  margin-top: 1.2rem;
+}
+
+.cards-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 210px;
+  max-width: 220px;
+}
+
+.owned-label {
+  margin-top: 4px;
+  color: #d4af37;
+  font-size: 0.97em;
+  text-shadow: 0 1px 4px #000, 0 0 4px #d4af37aa;
+  font-family: 'Cinzel', serif;
+}
+
+p, label, .cards-section {
+  color: #f7ecd5;
+  font-family: 'Cinzel', serif;
+}
+
+.error {
+  color: #b00;
+  margin-bottom: 1rem;
+}

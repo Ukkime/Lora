@@ -1,9 +1,0 @@
-{
-    "id":  "card_growth_2",
-    "baseType":  "Spell",
-    "text":  "La criatura objetivo obtiene +3/+3 hasta el final del turno.",
-    "name":  "Crecimiento Gigante",
-    "manaCost":  {
-                     "G":  1
-                 }
-}

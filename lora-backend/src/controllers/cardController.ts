@@ -10,42 +10,54 @@ import { cardService } from "../services/cardService";
  * incluyendo propiedades específicas según el tipo base de la carta.
  * GET /api/cards
  */
-export const getAllCards = (req: Request, res: Response) => {
+import { query } from "../db";
+
+export const getAllCards = async (req: Request, res: Response) => {
   try {
-    // cardService.getAllCardDefinitions() devuelve un array de CardJsonData (el dato crudo del JSON).
     const cardsData = cardService.getAllCardDefinitions();
 
-    // Mapeamos los datos crudos a un formato "simple" que el frontend pueda consumir fácilmente.
-    // Aquí es donde se añaden condicionalmente propiedades como 'power', 'toughness', 'providesMana', etc.
+    // Obtener userId del usuario autenticado
+    // Asume que el middleware de autenticación coloca el userId en req.user.id
+    // Si usas otro campo, ajusta aquí
+    const userId = (req as any).user?.id;
+    let userCardIds: Set<string> = new Set();
+
+    if (userId) {
+      // Consulta la tabla user_cards para obtener los IDs de cartas que posee el usuario
+      const userCards = await query(
+        "SELECT card_id FROM user_cards WHERE user_id = ?",
+        [userId]
+      );
+      userCardIds = new Set(userCards.map((row: any) => row.card_id));
+    }
+
     const simpleCards = cardsData.map((cardData) => ({
       id: cardData.id,
       name: cardData.name,
-      baseType: cardData.baseType, // Es crucial enviar el baseType para que el frontend sepa de qué tipo es.
+      baseType: cardData.baseType,
       manaCost: cardData.manaCost,
       text: cardData.text,
-      // Agrega propiedades específicas de criatura si cardData.baseType es 'Creature'
+      rarity: cardData.rarity,
+      faction: cardData.faction,
       ...(cardData.baseType === "Creature" && {
         power: cardData.power,
         toughness: cardData.toughness,
       }),
-      // Agrega propiedades específicas de tierra si cardData.baseType es 'Land'
       ...(cardData.baseType === "Land" && {
         providesMana: cardData.providesMana,
       }),
-      // Agrega propiedades específicas de planeswalker si cardData.baseType es 'Planeswalker'
       ...(cardData.baseType === "Planeswalker" && {
         initialLoyalty: cardData.initialLoyalty,
         loyaltyAbilities: cardData.loyaltyAbilities,
       }),
-      // ... Puedes añadir lógica similar para otros tipos de cartas como 'Artifact', 'Enchantment', etc.
-      // Siempre asegúrate de que las propiedades existan en CardJsonData antes de incluirlas.
+      // Campo available: true si el usuario la tiene, false si no o si no autenticado
+      available: userId ? userCardIds.has(cardData.id) : false,
+      price: cardData.price,
     }));
 
-    // Envía la lista de cartas simplificadas como respuesta JSON.
     return res.json(simpleCards);
   } catch (error: any) {
     console.error("Error al obtener todas las cartas:", error.message);
-    // En caso de error, envía un estado 500 (Error Interno del Servidor) con un mensaje descriptivo.
     return res
       .status(500)
       .json({
@@ -75,6 +87,9 @@ export const getCardById = (req: Request, res: Response) => {
         baseType: cardData.baseType, // Crucial para el frontend.
         manaCost: cardData.manaCost,
         text: cardData.text,
+        // Nuevos atributos generales
+        rarity: cardData.rarity,
+        faction: cardData.faction,
         // Agrega propiedades específicas condicionalmente, igual que en getAllCards.
         ...(cardData.baseType === "Creature" && {
           power: cardData.power,

@@ -1,0 +1,12 @@
+{
+    "id":  "land_mountain_1",
+    "providesMana":  "R",
+    "baseType":  "Land",
+    "manaCost":  {
+
+                 },
+    "name":  "Montaña Ardiente",
+    "rarity":  "common",
+    "text":  "Endereza para añadir maná R.",
+    "faction":  "human"
+}

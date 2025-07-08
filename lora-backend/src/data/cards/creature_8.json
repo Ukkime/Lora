@@ -1,0 +1,14 @@
+{
+    "id":  "creature_8",
+    "toughness":  3,
+    "power":  4,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián Elfo",
+    "baseType":  "Creature",
+    "rarity":  "special",
+    "text":  "Una criatura elf de con instinto salvaje.",
+    "faction":  "elf"
+}

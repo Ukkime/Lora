@@ -1,0 +1,100 @@
+<div class="selector-background">
+  <div style="text-align: center">
+    <div class="selector-card">
+      <h1>Creador de Mazos</h1>
+      <hr />
+      <form (ngSubmit)="saveDeck()" autocomplete="off">
+        <div class="deck-controls">
+          <input type="text" [(ngModel)]="deckName" name="deckName" placeholder="Nombre del mazo" maxlength="40" required />
+          <button type="submit" [disabled]="selectedDeck.length < minDeckSize || !deckName.trim()">
+            {{ editingDeckId ? 'Actualizar' : 'Guardar' }} Mazo
+          </button>
+          <button type="button" (click)="clearDeck()">Limpiar</button>
+        </div>
+        <div class="deck-status">
+          <span>{{ selectedDeck.length }} / {{ maxDeckSize }} cartas</span>
+          <span *ngIf="selectedDeck.length < minDeckSize" class="deck-warning">
+            Faltan {{ minDeckSize - selectedDeck.length }} carta(s)
+          </span>
+          <span *ngIf="selectedDeck.length > maxDeckSize" class="deck-warning">
+            Exceso de {{ selectedDeck.length - maxDeckSize }} carta(s)
+          </span>
+        </div>
+        <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+        <div *ngIf="successMsg" class="success">{{ successMsg }}</div>
+      </form>
+      <div class="deck-builder-panels">
+        <div class="panel panel-cards"
+             (dragover)="allowDrop($event)"
+             (drop)="onCollectionDrop($event)"
+             [class.drop-hover]="dragSource === 'deck'">
+          <div class="view-toggle-bar">
+            <button type="button" class="toggle-view-btn" (click)="toggleExpandedView()">
+              <span *ngIf="!expandedView">🔍 Expandir Cartas</span>
+              <span *ngIf="expandedView">🗜️ Compactar Cartas</span>
+            </button>
+          </div>
+          <h2>Tu Colección</h2>
+          <div class="filters-bar">
+            <input type="text" [(ngModel)]="searchText" placeholder="Buscar carta..." class="search-input" />
+            <select [(ngModel)]="filterRarity" class="filter-select">
+              <option value="">Rareza</option>
+              <option value="Common">Común</option>
+              <option value="Uncommon">Infrecuente</option>
+              <option value="Rare">Rara</option>
+              <option value="Mythic">Mítica</option>
+            </select>
+            <select [(ngModel)]="filterFaction" class="filter-select">
+              <option value="">Facción</option>
+              <option *ngFor="let fac of ownedCards | mapFactions" [value]="fac">{{ fac }}</option>
+            </select>
+            <select [(ngModel)]="sortOrder" class="filter-select">
+              <option value="name">Nombre</option>
+              <option value="rarity">Rareza</option>
+            </select>
+          </div>
+          <div class="cards-list" [ngClass]="{'expanded': expandedView}" *ngIf="filteredOwnedCards().length > 0; else noCards">
+            <div *ngFor="let card of filteredOwnedCards()" class="card-container" [ngClass]="{'expanded': expandedView}"
+                 draggable="true"
+                 (dragstart)="onCardDragStart(card, 'collection', $event)"
+                 [ngClass]="{'drag-anim': dragCardId === card.id && dragSource === 'collection'}">
+              <app-card [card]="card" (cardClicked)="addCard(card)"></app-card>
+              <div class="add-label">Agregar <span *ngIf="cardCountInDeck(card) > 0" class="card-count">x{{ cardCountInDeck(card) }}</span></div>
+            </div>
+          </div>
+          <ng-template #noCards>
+            <p>No tienes cartas en tu colección.</p>
+          </ng-template>
+        </div>
+        <div class="panel panel-deck"
+             (dragover)="allowDrop($event)"
+             (drop)="onDeckDrop($event)"
+             [class.drop-hover]="dragSource === 'collection'">
+          <h2>Mazo Actual</h2>
+          <div class="cards-list" *ngIf="selectedDeck.length > 0; else emptyDeck">
+            <div *ngFor="let card of selectedDeck; let i = index" class="card-container"
+                 draggable="true"
+                 (dragstart)="onCardDragStart(card, 'deck', $event)">
+              <app-card [card]="card" (cardClicked)="removeCard(card)"></app-card>
+              <div class="remove-label">Quitar <span class="card-count">x{{ cardCountInDeck(card) }}</span></div>
+            </div>
+          </div>
+          <ng-template #emptyDeck>
+            <p>El mazo está vacío.</p>
+          </ng-template>
+        </div>
+      </div>
+      <div class="decks-list-section">
+        <h2>Mazos Guardados</h2>
+        <div *ngIf="decks.length === 0">No tienes mazos guardados.</div>
+        <div class="decks-list" *ngIf="decks.length > 0">
+          <div class="deck-item" *ngFor="let deck of decks">
+            <span class="deck-name">{{ deck.name }}</span>
+            <button (click)="editDeck(deck)">Editar</button>
+            <button (click)="deleteDeck(deck)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

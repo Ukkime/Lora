@@ -1,0 +1,32 @@
+{
+    "id":  "card_eldrin",
+    "baseType":  "Planeswalker",
+    "manaCost":  {
+                     "U":  3
+                 },
+    "initialLoyalty":  4,
+    "loyaltyAbilities":  [
+                             {
+                                 "cost":  1,
+                                 "description":  "+1: Robas una carta.",
+                                 "name":  "Meditación",
+                                 "type":  "plus"
+                             },
+                             {
+                                 "cost":  2,
+                                 "description":  "-2: El jugador objetivo descarta una carta.",
+                                 "name":  "Olvido",
+                                 "type":  "minus"
+                             },
+                             {
+                                 "cost":  6,
+                                 "description":  "-6: Puedes controlar el próximo turno de tu oponente.",
+                                 "name":  "Dominio Mental",
+                                 "type":  "ultimate"
+                             }
+                         ],
+    "name":  "Eldrin el Sabio",
+    "rarity":  "legendary",
+    "text":  "Eldrin el Sabio entra con 4 contadores de lealtad.",
+    "faction":  "human"
+}

@@ -1,0 +1,40 @@
+<div class="game-board-container">
+  <h2>Partida: {{ gameId }}</h2>
+
+  <div class="game-info">
+    <div class="info-row">
+      <div class="player-info">
+        <strong>Tu vida</strong>
+        <span class="life-value">{{ life }}</span>
+        <span class="hand-badge" *ngIf="hand.length !== undefined">🖐️ {{ hand.length }}</span>
+      </div>
+      <div class="opponent-info">
+        <strong>Oponente</strong>
+        <span class="opponent-life-value">{{ opponentLife }}</span>
+        <span class="opponent-hand-badge" *ngIf="opponentHandCount !== undefined">🖐️ {{ opponentHandCount }}</span>
+      </div>
+    </div>
+    <div class="info-row">
+      <div><strong>Turno:</strong> {{ turn }}</div>
+      <div><strong>Fase:</strong> {{ phase }}</div>
+    </div>
+  </div>
+
+  <div class="play-zone">
+    <h3>Zona de Juego</h3>
+    <div class="zone-cards">
+      <div *ngIf="playZone.length === 0">No hay cartas en juego.</div>
+      <app-card *ngFor="let card of playZone" [card]="card"></app-card>
+
+
+    </div>
+  </div>
+
+  <div class="hand">
+    <h3>Tu Mano</h3>
+    <div class="hand-cards">
+      <div *ngIf="hand.length === 0">No tienes cartas en la mano.</div>
+      <app-card *ngFor="let card of hand" [card]="card" (click)="playCard(card)"></app-card>
+    </div>
+  </div>
+</div>

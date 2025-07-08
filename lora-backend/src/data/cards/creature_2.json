@@ -1,0 +1,15 @@
+{
+    "id":  "creature_2",
+    "toughness":  2,
+    "power":  4,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián",
+    "baseType":  "Creature",
+    "rarity":  "mythic",
+    "text":  "Una criatura angel de con instinto salvaje.",
+    "faction":  "angel",
+    "price":  1000
+}

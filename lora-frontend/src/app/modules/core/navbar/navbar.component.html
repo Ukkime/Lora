@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    <a routerLink="/mis-cartas">LORA Card Game</a>
+  </div>
+  <ul class="nav-links">
+    <li><a routerLink="/mercado" routerLinkActive="active">Mercado</a></li>
+    <li><a routerLink="/mis-cartas" routerLinkActive="active">Mis Cartas</a></li>
+    <li><a routerLink="/creador-mazos" routerLinkActive="active">Creador de Mazos</a></li>
+    <li *ngIf="username" class="user-info">
+      <span>👤 {{ username }}</span>
+      <span *ngIf="credits !== null">💰 {{ credits }}</span>
+    </li>
+    <li><a routerLink="/juego" routerLinkActive="active">Juego</a></li>
+    <li><a (click)="logout()">Salir</a></li>
+  </ul>
+</nav>

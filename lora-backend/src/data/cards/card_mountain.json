@@ -1,8 +1,0 @@
-{
-    "id": "card_mountain_1",
-    "name": "Mountain",
-    "baseType": "Land",
-    "manaCost": {},
-    "text": "Tap to add one Red mana.",
-    "providesMana": "R"
-}

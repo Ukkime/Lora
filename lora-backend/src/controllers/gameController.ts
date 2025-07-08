@@ -7,13 +7,16 @@ import { gameService } from "../services/gameService";
  */
 export const startGame = (req: Request, res: Response) => {
   try {
-    const { player1Name, player2Name } = req.body;
+    const { player1Id, player1Name, player2Id, player2Name } = req.body;
     if (!player1Name || !player2Name) {
       return res
         .status(400)
         .json({ message: "Se requieren los nombres de ambos jugadores." });
     }
-    const gameData = gameService.startGame(player1Name, player2Name);
+    // Si no se proporcionan IDs, generamos unos temporales para pruebas
+    const id1 = player1Id || `player_${Math.floor(Math.random() * 10000)}`;
+    const id2 = player2Id || `player_${Math.floor(Math.random() * 10000)}`;
+    const gameData = gameService.startGame(id1, player1Name, id2, player2Name);
     return res.status(201).json(gameData);
   } catch (error: any) {
     console.error("Error al iniciar el juego:", error.message);

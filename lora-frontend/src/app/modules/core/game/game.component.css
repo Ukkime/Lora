@@ -1,0 +1,163 @@
+.game-background {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #232526 0%, #414345 100%), url('/assets/img/bg-parchment.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+}
+
+.game-controls {
+  margin: 2rem auto;
+  padding: 2rem 2.2rem 1.5rem 2.2rem;
+  background: #2c2418;
+  border-radius: 16px;
+  border: 2.5px solid #d4af37;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.5);
+  max-width: 480px;
+  min-width: 320px;
+  min-height: 320px;
+  text-align: center;
+  font-family: 'Segoe UI', 'Cinzel', serif;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+.game-controls h2, .game-controls h3 {
+  color: #d4af37;
+  margin-bottom: 1.5rem;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px #000, 0 0 8px #d4af37aa;
+}
+
+.game-controls h3 {
+  color: #d4af37;
+  margin-bottom: 0.6rem;
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+}
+
+.section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #bfa84c44;
+}
+.section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.deck-select-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
+}
+
+#deck-select {
+  appearance: none;
+  background: #2e2410;
+  border: 2px solid #d4af37;
+  border-radius: 8px;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-size: 1.07em;
+  padding: 0.55em 2.3em 0.55em 1em;
+  margin-top: 0.5em;
+  box-shadow: 0 2px 10px #00000033, 0 0 6px #d4af37aa;
+  outline: none;
+  transition: border 0.2s, box-shadow 0.2s;
+  width: 100%;
+  min-width: 210px;
+  max-width: 340px;
+}
+
+#deck-select:focus {
+  border-color: #fffbe6;
+  box-shadow: 0 0 0 3px #d4af3740;
+}
+
+#deck-select option {
+  background: #23201b;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+}
+
+.deck-size-info {
+  margin: 0.7rem 0 1.2rem 0;
+  font-size: 1.13em;
+  color: #e9e2c7;
+}
+
+.deck-warning {
+  color: #ffb700;
+  font-weight: bold;
+  margin-left: 0.5em;
+  font-size: 1em;
+  text-shadow: 0 1px 2px #00000022;
+}
+
+.game-status {
+  font-size: 1.1em;
+  color: #e9e2c7;
+  background: #473b1a;
+  border-radius: 7px;
+  padding: 0.4em 0.8em;
+  margin: 0.2em auto 0.7em auto;
+  display: inline-block;
+}
+.game-controls button {
+  background: linear-gradient(90deg, #d4af37 0%, #bfa84c 100%);
+  color: #2e2410;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7em 2.2em;
+  font-size: 1.1em;
+  margin: 0 0.7rem 0.7rem 0.7rem;
+  box-shadow: 0 2px 8px #00000033, 0 0 8px #d4af37aa;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.game-controls button:hover:not(:disabled) {
+  background: linear-gradient(90deg, #fffbe6 0%, #d4af37 100%);
+  color: #2e2410;
+  transform: scale(1.03);
+}
+
+.game-controls button:disabled, .btn-disabled {
+  background: #bfa84c99;
+  color: #888;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+
+.button-hints {
+  margin-top: 0.5em;
+  min-height: 1.3em;
+}
+.hint {
+  margin: 0.3em auto;
+  padding: 0.3em 0.7em;
+  border-radius: 6px;
+  font-size: 0.98em;
+  display: inline-block;
+  background: #2c2418cc;
+  color: #ffe07b;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.09);
+}
+.hint.warning {
+  background: #a67c00c9;
+  color: #fffbe7;
+  border: 1px solid #ffe07b44;
+  font-weight: 500;
+}
+

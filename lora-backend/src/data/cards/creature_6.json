@@ -1,0 +1,14 @@
+{
+    "id":  "creature_6",
+    "toughness":  4,
+    "power":  4,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián",
+    "baseType":  "Creature",
+    "rarity":  "mythic",
+    "text":  "Una criatura elemental de con instinto salvaje.",
+    "faction":  "elemental"
+}

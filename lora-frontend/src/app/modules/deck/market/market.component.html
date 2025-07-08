@@ -1,0 +1,41 @@
+<div class="mercado-background">
+  <div style="text-align: center">
+    <div class="mercado-card">
+      <h2>Mercado de Cartas</h2>
+
+      <div class="cards-section">
+        <div
+          class="cards-list"
+          *ngIf="allAvailableCards.length > 0; else loadingCards"
+        >
+          <div
+            *ngFor="let card of allAvailableCards; index as i"
+            class="card-container"
+          >
+            <app-card
+              [card]="card"
+              [index]="allAvailableCards.length - i"
+              (cardClicked)="addCardToDeck(card)"
+            ></app-card>
+
+              <button *ngIf="!card.available"
+                (click)="buyCard(card)"
+                [disabled]="card.price && userCredits < card.price"
+                class="buy-button"
+                [ngClass]="{
+                  'can-buy': card.price && userCredits >= card.price,
+                  'can-not-buy': card.price && userCredits < card.price
+                }"
+              >
+                Comprar ({{ card.price ?? 10 }} 💰)
+              </button>
+
+          </div>
+        </div>
+        <ng-template #loadingCards>
+          <p>Cargando cartas de tu colección...</p>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+    "id":  "spell_3",
+    "name":  "Hechizo",
+    "text":  "Este hechizo inflige 3 puntos de daño al objetivo.",
+    "baseType":  "Spell",
+    "faction":  "dwarf",
+    "rarity":  "uncommon",
+    "manaCost":  {
+                     "R":  1
+                 }
+}

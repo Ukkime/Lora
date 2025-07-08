@@ -1,0 +1,12 @@
+{
+    "id":  "land_forest_2",
+    "providesMana":  "G",
+    "baseType":  "Land",
+    "manaCost":  {
+
+                 },
+    "name":  "Bosque Viviente",
+    "rarity":  "common",
+    "text":  "Endereza para añadir maná G.",
+    "faction":  "necropolis"
+}

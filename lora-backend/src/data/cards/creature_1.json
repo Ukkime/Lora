@@ -1,0 +1,15 @@
+{
+    "id":  "creature_1",
+    "toughness":  2,
+    "power":  3,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián",
+    "baseType":  "Creature",
+    "rarity":  "legendary",
+    "text":  "Una criatura human de con instinto salvaje.",
+    "faction":  "human",
+    "price":  1000
+}

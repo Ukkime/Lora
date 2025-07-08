@@ -1,0 +1,12 @@
+{
+    "id":  "land_island_2",
+    "providesMana":  "U",
+    "baseType":  "Land",
+    "manaCost":  {
+
+                 },
+    "name":  "Isla Profunda",
+    "rarity":  "common",
+    "text":  "Endereza para añadir maná U.",
+    "faction":  "necropolis"
+}

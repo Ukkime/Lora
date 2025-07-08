@@ -1,0 +1,73 @@
+<div class="game-background">
+  <div class="game-card">
+    <div class="game-controls">
+  <h2>Juego / Emparejamiento</h2>
+  <div class="section">
+    <div class="deck-select-group">
+      <label for="deck-select"><h3>Selecciona tu mazo:</h3></label>
+      <select id="deck-select" [(ngModel)]="selectedDeckId" (change)="onDeckChange(selectedDeckId)">
+        <option *ngFor="let deck of userDecks" [value]="deck.id">
+          {{ deck.name }} ({{ deck.cards.length }} cartas)
+        </option>
+      </select>
+    </div>
+    <div *ngIf="selectedDeck">
+      <p class="deck-size-info">
+        Tamaño del mazo seleccionado: <strong>{{ selectedDeck.length }}</strong>
+        <span *ngIf="selectedDeck.length < minDeckSize" class="deck-warning">
+          (faltan {{ minDeckSize - selectedDeck.length }} cartas)
+        </span>
+        <span *ngIf="selectedDeck.length > maxDeckSize" class="deck-warning">
+          (sobran {{ selectedDeck.length - maxDeckSize }} cartas)
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Estado del Juego:</h3>
+    <div class="game-status">{{ gameStatus }}</div>
+  </div>
+
+  <div class="section">
+    <button
+      (click)="joinGameQueue()"
+      [disabled]="
+        !isSocketConnected ||
+        currentActiveGameId !== null ||
+        !selectedDeck ||
+        selectedDeck.length < minDeckSize ||
+        selectedDeck.length > maxDeckSize
+      "
+      [ngClass]="{
+        'btn-disabled':
+          !isSocketConnected ||
+          currentActiveGameId !== null ||
+          !selectedDeck ||
+          selectedDeck.length < minDeckSize ||
+          selectedDeck.length > maxDeckSize
+      }"
+    >
+      Unirse a la Cola de Emparejamiento
+    </button>
+    <button
+      (click)="leaveGameQueue()"
+      [disabled]="!isSocketConnected || currentActiveGameId !== null"
+      [ngClass]="{'btn-disabled': !isSocketConnected || currentActiveGameId !== null}"
+    >
+      Salir de Cola
+    </button>
+    <div class="button-hints">
+      <div *ngIf="!isSocketConnected" class="hint warning">
+        <span>Conexión perdida. Esperando conexión...</span>
+      </div>
+      <div *ngIf="currentActiveGameId !== null" class="hint warning">
+        <span>Ya tienes una partida activa.</span>
+      </div>
+      <div *ngIf="!selectedDeck" class="hint warning">
+        <span>Debes seleccionar un mazo.</span>
+      </div>
+      <div *ngIf="selectedDeck && selectedDeck.length < minDeckSize" class="hint warning">
+    </div>
+  </div>
+</div>

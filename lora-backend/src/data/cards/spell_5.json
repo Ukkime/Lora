@@ -1,0 +1,12 @@
+{
+    "id":  "spell_5",
+    "name":  "Hechizo",
+    "text":  "Este hechizo inflige 3 puntos de daño al objetivo.",
+    "baseType":  "Spell",
+    "faction":  "tribal",
+    "rarity":  "uncommon",
+    "manaCost":  {
+                     "R":  1
+                 },
+    "price":  1000
+}

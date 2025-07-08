@@ -1,9 +1,0 @@
-{
-    "id":  "card_counterspell_1",
-    "baseType":  "Spell",
-    "text":  "Contrarresta el hechizo objetivo.",
-    "name":  "Contrarrestar",
-    "manaCost":  {
-                     "U":  2
-                 }
-}

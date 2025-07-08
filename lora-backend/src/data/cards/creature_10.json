@@ -1,0 +1,14 @@
+{
+    "id":  "creature_10",
+    "toughness":  2,
+    "power":  2,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián",
+    "baseType":  "Creature",
+    "rarity":  "legendary",
+    "text":  "Una criatura beast de con instinto salvaje.",
+    "faction":  "beast"
+}

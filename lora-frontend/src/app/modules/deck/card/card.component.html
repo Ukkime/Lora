@@ -1,0 +1,52 @@
+<div
+  class="card-container"
+  [class.card-unavailable]="!_card.available"
+  [class.card-mythic]="_card.rarity === 'mythic' && _card.available"
+  [class.card-legendary]="_card.rarity === 'legendary' && _card.available"
+  [class.card-special]="_card.rarity === 'special' && _card.available"
+  [class.card-uncommon]="_card.rarity === 'uncommon' && _card.available"
+  [class.card-common]="_card.rarity === 'common' && _card.available"
+
+  [class.card-elf]="_card.faction === 'elf' && _card.available"
+  [class.card-dwarf]="_card.faction === 'dwarf' && _card.available"
+  [class.card-necropolis]="_card.faction === 'necropolis' && _card.available"
+  [class.card-undead]="_card.faction === 'undead' && _card.available"
+  [class.card-angel]="_card.faction === 'angel' && _card.available"
+  [class.card-demon]="_card.faction === 'demon' && _card.available"
+  [class.card-beast]="_card.faction === 'beast' && _card.available"
+
+  [style.z-index]="_index"
+
+  (click)="_card.available ? addCardToDeck(_card) : null"
+  *ngIf="_card"
+  (mouseenter)="raiseIndex()"
+  (mouseleave)="resetIndex()"
+>
+  <div class="card-header">
+    <span class="card-name">{{ _card.name }}</span>
+    <span class="card-mana-cost">{{ _card.formattedManaCost }}</span>
+  </div>
+  <div class="card-image-frame">
+    <img
+      src="https://picsum.photos/200/300?random={{ _card.id }}"
+      [alt]="_card.name"
+      class="card-image"
+    />
+  </div>
+  <div class="card-type">{{ _card.baseType }}</div>
+  <div class="card-text">
+    <p>{{ _card.text }}</p>
+  </div>
+  <div
+    *ngIf="_card.power !== undefined && _card.toughness !== undefined"
+    class="card-stats"
+  >
+    {{ _card.power }} / {{ _card.toughness }}
+  </div>
+  <div *ngIf="_card.baseType === 'Planeswalker'" class="card-loyalty">
+    Loyalty: {{ _card.initialLoyalty }}
+  </div>
+  <div *ngIf="_card.baseType === 'Land'" class="card-mana-production">
+    Produces: {{ _card.providesMana }}
+  </div>
+</div>

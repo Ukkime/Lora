@@ -1,0 +1,189 @@
+/* Fuente temática sugerida */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cinzel+Decorative:wght@700&display=swap');
+
+/* Fondo general con textura y degradado oscuro */
+.login-background {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #232526 0%, #414345 100%), url('/assets/img/bg-parchment.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+}
+
+/* Carta central con borde dorado y sombra */
+.login-card {
+  background: rgba(30, 24, 18, 0.96);
+  border-radius: 18px;
+  border: 3px solid #d4af37;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.7), 0 0 18px 4px #d4af3780;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 370px;
+  width: 100%;
+  position: relative;
+  font-family: 'Cinzel', serif;
+  animation: fadeInCard 0.8s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes fadeInCard {
+  from { transform: scale(0.96) translateY(30px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-logo {
+  width: 80px;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 0 12px #d4af37cc);
+}
+
+.login-title {
+  color: #d4af37;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 0 2px 8px #000, 0 0 8px #d4af37aa;
+  font-family: 'Cinzel Decorative', cursive;
+}
+
+.login-label-remember-checkbox {
+  color: #d4af37;
+}
+
+.login-input-group {
+  display: flex;
+  align-items: center;
+  background: #23201b;
+  border-radius: 10px;
+  border: 1.5px solid #a68a3f;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 2px 8px #0006;
+  padding: 0.3rem 0.8rem;
+  transition: box-shadow 0.2s;
+}
+.login-input-group:focus-within {
+  box-shadow: 0 0 0 2px #d4af37cc, 0 2px 10px #0008;
+}
+.input-icon {
+  color: #d4af37;
+  margin-right: 0.7rem;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+}
+.login-input-group input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f7ecd5;
+  font-size: 1.08rem;
+  padding: 0.6rem 0;
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.5px;
+}
+.login-input-group input::placeholder {
+  color: #bda36b;
+  opacity: 1;
+  font-style: italic;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  font-size: 0.98rem;
+  flex-direction: column;
+}
+.login-link {
+  color: #d4af37;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.login-link:hover {
+  color: #fffbe6;
+}
+
+.login-btn {
+  position: relative;
+  top: 20px;
+  width: 100%;
+  padding: 0.7rem 0;
+  background: linear-gradient(90deg, #d4af37 60%, #a67c2e 100%);
+  color: #2d2210;
+  font-weight: bold;
+  font-size: 1.12rem;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0006, 0 0 8px #d4af37cc inset;
+  cursor: pointer;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+  margin-bottom: 0.7rem;
+  transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+}
+.login-btn:hover, .login-btn:focus {
+  background: linear-gradient(90deg, #d1bf66 60%, #d4af37 100%);
+  color: #faebd0;
+  box-shadow: 0 4px 16px #d4af3755, 0 2px 12px #0008;
+}
+
+.login-message {
+  min-height: 1.5em;
+  color: #f44336;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  font-family: 'Cinzel', serif;
+}
+
+/* Scrollbar personalizado */
+.login-card ::-webkit-scrollbar {
+  width: 8px;
+  background: #23201b;
+}
+.login-card ::-webkit-scrollbar-thumb {
+  background: #a68a3f;
+  border-radius: 8px;
+}
+
+.link-btn {
+  display: block;
+  width: 100%;
+  margin: 0.5rem 0 0.5rem 0;
+  background: none;
+  border: none;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  font-size: 1.03rem;
+  text-align: center;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+  outline: none;
+  padding: 0.5rem 0 0.2rem 0;
+}
+.link-btn:hover, .link-btn:focus {
+  color: #fffbe6;
+  text-shadow: 0 0 6px #d4af37cc;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
+  .login-title {
+    font-size: 1.3rem;
+  }
+}
+
+
+/* Sugerencia: añade una textura medieval (bg-parchment.jpg) en assets para mayor inmersión visual. */

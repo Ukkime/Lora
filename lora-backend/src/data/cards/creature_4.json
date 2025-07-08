@@ -1,0 +1,14 @@
+{
+    "id":  "creature_4",
+    "toughness":  2,
+    "power":  4,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián",
+    "baseType":  "Creature",
+    "rarity":  "uncommon",
+    "text":  "Una criatura demon de con instinto salvaje.",
+    "faction":  "demon"
+}

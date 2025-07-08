@@ -1,0 +1,11 @@
+{
+    "id":  "artifact_2",
+    "name":  "Artefacto",
+    "text":  "La criatura equipada gana +1/+0.",
+    "baseType":  "Artifact",
+    "faction":  "undead",
+    "rarity":  "mythic",
+    "manaCost":  {
+                     "C":  1
+                 }
+}

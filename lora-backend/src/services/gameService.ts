@@ -1,9 +1,9 @@
 // src/services/gameService.ts
-import { Game } from "../models/game/Game";
-import { Card } from "../models/cards/Card";
-import { Player } from "../models/players/Player";
+import { Game } from "../models/game/Game"; // Ruta corregida a ../models/Game
+import { Card } from "../models/cards/Card"; // Ruta corregida a ../models/Card
+import { Player } from "../models/players/Player"; // Ruta corregida a ../models/Player
 import { Server as SocketIOServer } from "socket.io"; // Importa Server para el tipado de Socket.IO
-import { cardService } from "./cardService"; // Importa el servicio de cartas para cargar mazos
+import { cardService, CardJsonData } from "../services/cardService"; // Importa el servicio de cartas y CardJsonData
 
 // --- Interfaces y Tipos ---
 
@@ -23,6 +23,16 @@ interface QueuedPlayer {
  * Se implementa como un Singleton para asegurar una única fuente de verdad para el estado del juego.
  */
 class GameService {
+  /**
+   * Verifica si el playerId está asociado al socketId proporcionado y la conexión está activa.
+   * @param playerId El ID único del jugador.
+   * @param socketId El ID del socket.
+   * @returns true si la asociación existe y está activa, false en caso contrario.
+   */
+  public isSocketConnected(playerId: string, socketId: string): boolean {
+    const registeredSocketId = this.playerSocketMap.get(playerId);
+    return registeredSocketId === socketId;
+  }
   // --- Propiedades del Servicio ---
   private games: Map<string, Game> = new Map(); // Almacena todas las partidas activas, mapeadas por gameId
   private matchmakingQueue: QueuedPlayer[] = []; // La cola de jugadores esperando emparejamiento
@@ -88,13 +98,17 @@ class GameService {
   /**
    * Inicia una nueva partida entre dos jugadores.
    * Crea una nueva instancia de la clase `Game` y construye sus mazos.
+   * @param player1Id El ID del primer jugador.
    * @param player1Name El nombre del primer jugador.
+   * @param player2Id El ID del segundo jugador.
    * @param player2Name El nombre del segundo jugador.
    * @returns Un objeto que contiene el ID de la partida y su estado inicial.
-   * @throws Error si no hay definiciones de cartas cargadas.
+   * @throws Error si no hay definiciones de cartas cargadas o los mazos no se pueden construir.
    */
   public startGame(
+    player1Id: string,
     player1Name: string,
+    player2Id: string,
     player2Name: string
   ): { gameId: string; initialState: any } {
     const newGameId = `game_${Date.now()}_${Math.random()
@@ -108,39 +122,51 @@ class GameService {
       );
     }
 
-    const player1DeckData = allCardDefs.slice(
-      0,
-      Math.min(allCardDefs.length, 15)
-    );
-    const player2DeckData = allCardDefs.slice(
-      Math.max(0, allCardDefs.length - 15)
-    );
+    // --- NUEVA LÓGICA: Configuración de la colección y el mazo seleccionado para los jugadores ---
+    // En un juego real, estos datos vendrían del perfil del usuario (base de datos, etc.).
+    // Para las pruebas, cada jugador "poseerá" todas las cartas disponibles.
+    const player1AvailableCards: CardJsonData[] = allCardDefs;
+    const player2AvailableCards: CardJsonData[] = allCardDefs;
 
-    const tempDummyPlayerForDeckCreation = new Player(
-      "temp_dummy",
-      "Temp Dummy",
-      []
-    );
+    // Y cada uno seleccionará un subconjunto de IDs para su mazo de juego.
+    // Asegúrate de que estos IDs existan en tus archivos JSON de prueba.
+    // Aquí creamos un mazo de ejemplo de 15 cartas para cada jugador.
+    // Ajusta los slices si tienes menos de 30 cartas generadas.
+    const player1SelectedDeckIds: string[] = allCardDefs
+      .slice(0, Math.min(allCardDefs.length, 15))
+      .map((card) => card.id);
+    const player2SelectedDeckIds: string[] = allCardDefs
+      .slice(Math.min(allCardDefs.length, 15), Math.min(allCardDefs.length, 30))
+      .map((card) => card.id);
 
-    const player1DeckInstances: Card[] = player1DeckData.map((def) =>
-      cardService.instantiateCard(def, tempDummyPlayerForDeckCreation)
-    );
-    const player2DeckInstances: Card[] = player2DeckData.map((def) =>
-      cardService.instantiateCard(def, tempDummyPlayerForDeckCreation)
-    );
-
-    // Create the new Game instance
-    const newGame = new Game(
+    // Crea las instancias de Player con sus colecciones y mazos seleccionados.
+    const player1 = new Player(
+      player1Id,
       player1Name,
+      player1AvailableCards,
+      player1SelectedDeckIds
+    );
+    const player2 = new Player(
+      player2Id,
       player2Name,
-      player1DeckInstances,
-      player2DeckInstances
+      player2AvailableCards,
+      player2SelectedDeckIds
     );
 
-    // NEW: Assign the actual Player owner to cards in their respective decks
-    // Use the new public method on the Deck class
-    newGame.players[0].deck.assignCardOwners(newGame.players[0]);
-    newGame.players[1].deck.assignCardOwners(newGame.players[1]);
+    // --- NUEVA LÓGICA: Construir los mazos de los jugadores ---
+    // Cada jugador construye su mazo real a partir de los IDs seleccionados.
+    const player1DeckBuilt = player1.buildDeckForGame();
+    const player2DeckBuilt = player2.buildDeckForGame();
+
+    if (!player1DeckBuilt || !player2DeckBuilt) {
+      throw new Error(
+        "No se pudieron construir los mazos de los jugadores. Verifique los IDs de las cartas seleccionadas."
+      );
+    }
+
+    // Create the new Game instance, pasando las instancias de Player directamente.
+    // ELIMINADA la necesidad de pasar Card[] directamente al constructor de Game.
+    const newGame = new Game(player1, player2); // Asumiendo que Game constructor ahora acepta Player objects
 
     // Store the new game in the active games map
     this.games.set(newGameId, newGame);
@@ -232,7 +258,7 @@ class GameService {
       return null;
     }
 
-    const cardToPlay = player.hand.cardsInHand.find((c) => c.id === cardId);
+    const cardToPlay = player.hand.cardsInHand.find((c: Card) => c.id === cardId);
     if (!cardToPlay) {
       console.error(
         `Carta ${cardId} no encontrada en la mano del jugador ${playerId}.`
@@ -352,7 +378,9 @@ class GameService {
    */
   private tryMatchmaking(): void {
     console.log(
-      `Intentando emparejar. Jugadores en cola: ${this.matchmakingQueue.length}`
+`Intentando emparejar.
+ - Jugadores en cola: ${this.matchmakingQueue.length}
+ - Juegos activos: ${this.games.size}`
     );
     if (this.matchmakingQueue.length >= 2) {
       // Saca a los dos primeros jugadores de la cola (FIFO - First In, First Out)
@@ -365,7 +393,9 @@ class GameService {
         );
         // Inicia la partida con los jugadores encontrados
         const gameResult = this.startGame(
+          player1.playerId,
           player1.playerName,
+          player2.playerId,
           player2.playerName
         );
 

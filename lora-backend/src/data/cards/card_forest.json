@@ -1,8 +1,0 @@
-{
-    "id": "card_forest_1",
-    "name": "Forest",
-    "baseType": "Land",
-    "manaCost": {},
-    "text": "Tap to add one Green mana.",
-    "providesMana": "G"
-}

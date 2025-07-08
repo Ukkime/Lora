@@ -8,34 +8,31 @@ import { gameService } from "../services/gameService"; // Importa el servicio de
  */
 export const joinQueue = (req: Request, res: Response) => {
   try {
-    const { playerId, playerName } = req.body;
-    if (!playerId || !playerName) {
-      return res
-        .status(400)
-        .json({ message: "Se requieren playerId y playerName." });
+    const { playerId, playerName, socketId } = req.body;
+    if (!playerId || !playerName || !socketId) {
+      return res.status(400).json({ message: "Se requieren playerId, playerName y socketId." });
+    }
+
+    // Verifica que el socketId está registrado y activo
+    if (!gameService.isSocketConnected(playerId, socketId)) {
+      return res.status(403).json({ message: "No hay conexión Socket.IO activa para este jugador." });
     }
 
     const success = gameService.joinQueue(playerId, playerName);
     if (success) {
-      return res
-        .status(200)
-        .json({
-          message: `${playerName} unido a la cola.`,
-          queueSize: gameService.getQueueStatus().length,
-        });
+      return res.status(200).json({
+        message: `${playerName} unido a la cola.`,
+        queueSize: gameService.getQueueStatus().length,
+      });
     } else {
-      return res
-        .status(409)
-        .json({ message: `${playerName} ya está en la cola.` }); // 409 Conflict
+      return res.status(409).json({ message: `${playerName} ya está en la cola.` }); // 409 Conflict
     }
   } catch (error: any) {
     console.error("Error al unirse a la cola:", error.message);
-    return res
-      .status(500)
-      .json({
-        message: "Error interno del servidor al unirse a la cola.",
-        error: error.message,
-      });
+    return res.status(500).json({
+      message: "Error interno del servidor al unirse a la cola.",
+      error: error.message,
+    });
   }
 };
 

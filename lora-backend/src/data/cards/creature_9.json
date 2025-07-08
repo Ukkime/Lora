@@ -1,0 +1,14 @@
+{
+    "id":  "creature_9",
+    "toughness":  2,
+    "power":  3,
+    "manaCost":  {
+                     "C":  1,
+                     "G":  1
+                 },
+    "name":  "Guardián",
+    "baseType":  "Creature",
+    "rarity":  "uncommon",
+    "text":  "Una criatura undead de con instinto salvaje.",
+    "faction":  "undead"
+}

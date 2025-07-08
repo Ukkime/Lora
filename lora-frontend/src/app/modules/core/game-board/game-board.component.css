@@ -1,0 +1,229 @@
+/* Fondo y contenedor principal */
+.game-board-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, #232526 0%, #414345 100%), url('/assets/img/bg-parchment.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+  font-family: 'Segoe UI', 'Cinzel', serif;
+  padding-top: 2rem;
+}
+
+.play-zone, .hand {
+  margin: 2rem auto;
+  padding: 1.5rem 2rem 1.2rem 2rem;
+  background: #2c2418;
+  border-radius: 16px;
+  border: 2.5px solid #d4af37;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.5);
+
+  min-width: 320px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.play-zone h3, .hand h3 {
+  color: #d4af37;
+  margin-bottom: 1.2rem;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.5rem;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px #000, 0 0 8px #d4af37aa;
+}
+
+.zone-cards, .hand-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+.card {
+  background: #f7ecd1;
+  border: 2px solid #bfa84c;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #00000033, 0 0 6px #d4af37aa;
+  padding: 1rem 1.2rem 0.8rem 1.2rem;
+  min-width: 120px;
+  max-width: 160px;
+  text-align: left;
+  font-family: 'Cinzel', serif;
+  color: #2c2418;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 8px 24px #00000055, 0 0 12px #d4af37cc;
+}
+
+.card strong {
+  color: #bfa84c;
+  font-family: 'Cinzel Decorative', cursive;
+  font-size: 1.1em;
+  text-shadow: 0 1px 4px #fffbe7cc;
+}
+
+.mana-cost {
+  margin-top: 0.5em;
+  font-size: 0.98em;
+  color: #d4af37;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+}
+
+.hint {
+  margin-top: 0.7em;
+  font-size: 0.95em;
+  color: #665b3a;
+  font-style: italic;
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .play-zone, .hand {
+    min-width: 90vw;
+    padding: 1.2rem 0.5rem;
+  }
+  .zone-cards, .hand-cards {
+    gap: 0.6rem;
+  }
+  .card {
+    min-width: 90px;
+    max-width: 110px;
+    padding: 0.7rem 0.5rem 0.6rem 0.5rem;
+  }
+}
+
+/* --- Game Info Styles --- */
+.game-info {
+  position: fixed;
+  top: 80px;
+  right: 18px;
+  min-width: 350px;
+  max-width: 210px;
+  padding: 8px 12px;
+  background: rgba(30, 30, 40, 0.82);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+  font-size: 0.92em;
+  z-index: 1000;
+  opacity: 0.97;
+}
+
+.game-info .info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 1.05em;
+}
+
+.game-info .player-info, .game-info .opponent-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+    text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-info .player-info {
+  border-right: 2px solid #fff3;
+  padding-right: 10px;
+  margin-right: 10px;
+
+}
+
+.game-info .life-value, .game-info .opponent-life-value {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff5252;
+  background: #fff2;
+  padding: 2px 12px;
+  border-radius: 18px;
+  margin-right: 6px;
+  letter-spacing: 1.5px;
+  box-shadow: 0 1px 6px #ff525266;
+}
+
+.game-info .opponent-life-value {
+  color: #4fc3f7;
+  box-shadow: 0 1px 6px #4fc3f766;
+}
+
+.game-info .hand-badge, .game-info .opponent-hand-badge {
+  display: inline-block;
+  color: #eee6da;
+  font-size: 1.1em;
+  margin-top: 6px;
+
+}
+
+
+
+
+.game-info strong {
+  color: #ffd700;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .game-info {
+    top: 8px;
+    right: 8px;
+    min-width: 100px;
+    max-width: 140px;
+    padding: 5px 6px;
+    font-size: 0.78em;
+  }
+}
+
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4em;
+}
+
+.player-info, .opponent-info {
+  font-size: 1.13em;
+  font-family: 'Cinzel Decorative', cursive;
+  color: #ffe08a;
+  text-shadow: 0 1px 6px #000, 0 0 4px #d4af37aa;
+}
+
+.info-row strong {
+  color: #d4af37;
+  font-family: 'Cinzel Decorative', cursive;
+  letter-spacing: 1px;
+  font-size: 1.1em;
+}
+
+.game-info .info-row > div {
+  flex: 1;
+  padding: 0.2em 0.7em;
+}
+
+@media (max-width: 600px) {
+  .game-info {
+    padding: 0.7rem 0.3rem 0.5rem 0.3rem;
+    font-size: 0.98rem;
+  }
+  .info-row {
+    flex-direction: column;
+    gap: 0.2em;
+  }
+  .game-info .info-row > div {
+    padding: 0.1em 0.1em;
+  }
+}

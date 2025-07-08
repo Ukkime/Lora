@@ -1,9 +1,0 @@
-{
-    "id":  "card_bolt_4",
-    "baseType":  "Spell",
-    "text":  "El Rayo Certero hace 3 puntos de daño a cualquier objetivo.",
-    "name":  "Rayo Certero",
-    "manaCost":  {
-                     "R":  1
-                 }
-}
