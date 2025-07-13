@@ -1,16 +1,21 @@
 <nav class="navbar">
   <div class="nav-brand">
-    <a routerLink="/mis-cartas">LORA Card Game</a>
+    <a routerLink="/mis-cartas">LORA</a>
   </div>
   <ul class="nav-links">
     <li><a routerLink="/mercado" routerLinkActive="active">Mercado</a></li>
     <li><a routerLink="/mis-cartas" routerLinkActive="active">Mis Cartas</a></li>
-    <li><a routerLink="/creador-mazos" routerLinkActive="active">Creador de Mazos</a></li>
-    <li *ngIf="username" class="user-info">
-      <span>👤 {{ username }}</span>
-      <span *ngIf="credits !== null">💰 {{ credits }}</span>
-    </li>
+
     <li><a routerLink="/juego" routerLinkActive="active">Juego</a></li>
-    <li><a (click)="logout()">Salir</a></li>
+    <li *ngIf="username" class="user-dropdown">
+      <span class="user-dropdown-toggle" (click)="toggleUserMenu()">👤 {{ username }} <span *ngIf="credits !== null">💰 {{ credits }}</span> ▼</span>
+      <ul class="user-dropdown-menu" [class.open]="userMenuOpen" *ngIf="userMenuOpen">
+        <li><a routerLink="/mis-cartas" routerLinkActive="active" (click)="closeUserMenu()">Mis Cartas</a></li>
+        <li><a routerLink="/creador-mazos" routerLinkActive="active" (click)="closeUserMenu()">Mazos</a></li>
+        <li><a routerLink="/crear-carta" routerLinkActive="active" (click)="closeUserMenu()">Crear Carta</a></li>
+        <li><a routerLink="/sesiones" routerLinkActive="active" (click)="closeUserMenu()">Sesiones</a></li>
+        <li><a (click)="logout(); closeUserMenu()">Salir</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>

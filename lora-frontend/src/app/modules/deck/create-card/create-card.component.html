@@ -1,0 +1,198 @@
+<div class="selector-background">
+  <div class="create-card-flex-layout">
+    <div class="selector-card panel create-card-panel">
+      <h1>Crear Nueva Carta</h1>
+      <hr />
+      <form [formGroup]="cardForm" (ngSubmit)="submit()" autocomplete="off">
+      <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+      <div class="form-group">
+        <label>Nombre*</label>
+        <input formControlName="name" class="search-input" placeholder="Nombre de la carta" maxlength="40" />
+      </div>
+      <div class="form-group">
+        <label>Tipo Base*</label>
+        <select formControlName="baseType" class="filter-select">
+          <option value="" disabled>Selecciona tipo</option>
+          <option *ngFor="let type of baseTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Coste de Maná</label>
+        <div *ngIf="manaCostGroup as manaGroup" class="mana-cost-group" [formGroup]="manaGroup">
+          <div class="mana-row">
+            <div class="mana-col" *ngFor="let color of manaColors.slice(0, 3)">
+              <label>{{ color }}</label>
+              <input type="number" min="0" [formControlName]="color" class="mana-input" />
+            </div>
+          </div>
+          <div class="mana-row">
+            <div class="mana-col" *ngFor="let color of manaColors.slice(3, 6)">
+              <label>{{ color }}</label>
+              <input type="number" min="0" [formControlName]="color" class="mana-input" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Texto*</label>
+        <textarea formControlName="text" class="search-input" rows="3" placeholder="Texto de la carta"></textarea>
+      </div>
+
+      <!-- NUEVO: Atributos especiales -->
+      <div class="form-group">
+        <label>Atributos especiales</label>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="addAttribute()">Agregar Atributo</button>
+        <div formArrayName="attributes">
+          <div *ngFor="let attr of attributes.controls; let i = index" [formGroupName]="i" class="attribute-block">
+            <label>Código</label>
+            <input formControlName="code" class="search-input" placeholder="Ej: haste" />
+            <label>Nombre</label>
+            <input formControlName="name" class="search-input" placeholder="Ej: Prisa" />
+            <label>Descripción</label>
+            <input formControlName="description" class="search-input" placeholder="Ej: Puede atacar el turno que entra" />
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeAttribute(i)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NUEVO: Habilidades activadas -->
+      <div class="form-group">
+        <label>Habilidades activadas</label>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="addActivatedAbility()">Agregar Habilidad</button>
+        <div formArrayName="activatedAbilities">
+          <div *ngFor="let ab of activatedAbilities.controls ; let j = index" [formGroupName]="j" class="activated-ability-block">
+            <label>Nombre</label>
+            <input formControlName="name" class="search-input" placeholder="Nombre de la habilidad" />
+            <label>Descripción</label>
+            <input formControlName="description" class="search-input" placeholder="¿Qué hace la habilidad?" />
+            <label>Coste de maná</label>
+            <div *ngIf="asFormGroup(ab.get('manaCost')) as manaGroup" [formGroup]="manaGroup" class="mana-cost-group">
+              <div class="mana-row">
+                <div class="mana-col" *ngFor="let color of manaColors">
+                  <label>{{ color }}</label>
+                  <input type="number" min="0" [formControlName]="color" class="mana-input" />
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-danger btn-sm" (click)="removeActivatedAbility(j)">Eliminar</button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="cardForm.value.baseType === 'Creature'" class="form-group">
+        <label>Poder</label>
+        <input type="number" formControlName="power" class="search-input" />
+        <label>Resistencia</label>
+        <input type="number" formControlName="toughness" class="search-input" />
+      </div>
+
+      <div *ngIf="cardForm.value.baseType === 'Planeswalker'">
+        <div class="form-group">
+          <label>Lealtad Inicial</label>
+          <input type="number" formControlName="initialLoyalty" class="search-input" />
+        </div>
+        <div class="form-group">
+          <label>Habilidades de Lealtad</label>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="addLoyaltyAbility()">Agregar Habilidad</button>
+          <div formArrayName="loyaltyAbilities">
+            <div *ngFor="let ability of loyaltyAbilities.controls; let i = index" [formGroupName]="i" class="loyalty-ability-block">
+              <label>Nombre</label>
+              <input formControlName="name" class="search-input" />
+              <label>Descripción</label>
+              <input formControlName="description" class="search-input" />
+              <label>Tipo</label>
+              <select formControlName="type" class="filter-select">
+                <option value="plus">+</option>
+                <option value="minus">-</option>
+                <option value="ultimate">Ultimate</option>
+              </select>
+              <label>Costo</label>
+              <input type="number" formControlName="cost" class="search-input" />
+              <button type="button" class="btn btn-danger btn-sm" (click)="removeLoyaltyAbility(i)">Eliminar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="cardForm.value.baseType === 'Land'" class="form-group">
+        <label>Provee Maná</label>
+        <select formControlName="providesMana" class="filter-select">
+          <option value="">Ninguno</option>
+          <option *ngFor="let color of manaColors" [value]="color">{{ color }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Rareza*</label>
+        <select formControlName="rarity" class="filter-select">
+          <option value="" disabled>Selecciona rareza</option>
+          <option *ngFor="let r of rarities" [value]="r">{{ r }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Facción*</label>
+        <select formControlName="faction" class="filter-select">
+          <option value="" disabled>Selecciona facción</option>
+          <option *ngFor="let f of factions" [value]="f">{{ f }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Precio</label>
+        <input type="number" formControlName="price" class="search-input" />
+      </div>
+
+      <div class="form-group">
+        <label>Imagen de la carta</label>
+        <input type="file" accept="image/*" (change)="fileChangeEvent($event)" />
+      </div>
+      <div *ngIf="cropping" class="form-group">
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="3 / 2"
+          format="png"
+
+          (imageCropped)="onImageCropped($event)">
+        </image-cropper>
+        <div class="cropper-btns" style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.5rem;">
+          <button type="button" class="btn btn-success" (click)="acceptCrop()" style="display: flex; align-items: center; gap: 0.25rem;">
+            <span class="material-icons">check_circle</span> Aceptar recorte
+          </button>
+          <button type="button" class="btn btn-danger" (click)="cancelCrop()" style="display: flex; align-items: center; gap: 0.25rem;">
+            <span class="material-icons">cancel</span> Cancelar
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!cropping && croppedImage" class="form-group" style="text-align:center;">
+        <img [src]="croppedImage" style="max-width:100%; border:2px solid gold; margin-top:1rem; border-radius:10px;" />
+        <div style="margin-top:0.5rem;">
+          <button type="button" class="btn btn-outline-warning" (click)="cropping = true">
+            <span class="material-icons">crop</span> Volver a recortar
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Creando...' : 'Crear Carta' }}
+      </button>
+    </form>
+    </div>
+    <div class="preview-panel">
+      <h2>Vista Previa</h2>
+      <app-card [card]="previewCard" [scale]="2.3"></app-card>
+      <!--
+      <div style="word-break:break-all; font-size:0.8em; color:#d4af37; margin-top:0.5rem;">
+        <b>Base64 actual:</b>
+        {{ cardForm.value.image | slice:0:60 }}...
+      </div>
+      -->
+    </div>
+  </div>
+</div>
+<button (click)="debug()">Debug</button>

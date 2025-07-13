@@ -30,4 +30,12 @@ export const routes: Routes = [
     path: 'tablero/:gameId',
     loadComponent: () => import('./modules/core/game-board/game-board.component').then(m => m.GameBoardComponent),
   },
+  {
+    path: 'crear-carta',
+    loadComponent: () => import('./modules/deck/create-card/create-card.component').then(m => m.CreateCardComponent),
+  },
+  {
+    path: 'sesiones',
+    loadComponent: () => import('./modules/core/sessions/sessions.component').then(m => m.SessionsComponent),
+  },
 ];

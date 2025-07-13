@@ -1,0 +1,32 @@
+<div class="sessions-background">
+  <div class="sessions-card">
+    <h2 class="sessions-title">Sesiones activas</h2>
+    <button (click)="logoutAll()" [disabled]="logoutAllLoading" class="logout-all-btn">
+      Cerrar todas las sesiones
+    </button>
+    <div *ngIf="loading">Cargando sesiones...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+    <table *ngIf="sessions.length && !loading" class="sessions-table">
+      <thead>
+        <tr>
+          <th>Dispositivo / Navegador</th>
+          <th>Creada</th>
+          <th>Expira</th>
+          <th>Actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let session of sessions">
+          <td>{{ session.user_agent || 'Desconocido' }}</td>
+          <td>{{ session.created_at | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>{{ session.expires_at | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>
+            <span *ngIf="isCurrentSession(session.token)" class="current-session">Esta sesión</span>
+            <button *ngIf="!isCurrentSession(session.token)" (click)="revokeSession(session.id)" class="revoke-btn">Cerrar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="!sessions.length && !loading">No hay sesiones activas.</div>
+  </div>
+</div>

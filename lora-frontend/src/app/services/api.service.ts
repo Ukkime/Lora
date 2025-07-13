@@ -28,9 +28,9 @@ export class ApiService {
   }
 
   getUserCredits(): Observable<number> {
-    return this.http.get<{ credits: number }>(`${this.BACKEND_URL}/api/users/me/credits`).pipe(
-      map(res => res.credits)
-    );
+    return this.http
+      .get<{ credits: number }>(`${this.BACKEND_URL}/api/users/me/credits`)
+      .pipe(map((res) => res.credits));
   }
 
   getCards(): Observable<Card[]> {
@@ -59,11 +59,18 @@ export class ApiService {
     return this.http.get<Deck>(`${this.BACKEND_URL}/api/decks/${id}`);
   }
 
-  createDeck(deck: { name: string; cards: Card[] }): Observable<Deck> {
+  createCard(card: CardData): Observable<any> {
+    return this.http.post<any>(`${this.BACKEND_URL}/api/cards`, card);
+  }
+
+  createDeck(deck: { name: string; cards: string[] }): Observable<Deck> {
     return this.http.post<Deck>(`${this.BACKEND_URL}/api/decks`, deck);
   }
 
-  updateDeck(id: number, deck: { name: string; cards: Card[] }): Observable<Deck> {
+  updateDeck(
+    id: number,
+    deck: { name: string; cards: string[] }
+  ): Observable<Deck> {
     return this.http.put<Deck>(`${this.BACKEND_URL}/api/decks/${id}`, deck);
   }
 
@@ -107,7 +114,11 @@ export class ApiService {
    * @param socketId El ID de la conexión Socket.IO.
    * @returns Un Observable que emite la respuesta del backend.
    */
-  joinMatchmakingQueue(playerId: string, playerName: string, socketId: string): Observable<any> {
+  joinMatchmakingQueue(
+    playerId: string,
+    playerName: string,
+    socketId: string
+  ): Observable<any> {
     return this.http.post<any>(`${this.BACKEND_URL}/api/matchmaking/join`, {
       playerId,
       playerName,

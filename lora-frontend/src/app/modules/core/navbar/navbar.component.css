@@ -52,17 +52,81 @@
   box-shadow: 0 2px 10px #d4af37aa;
 }
 
-.user-info {
+.user-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.user-dropdown-toggle {
+  color: #f7ecd5;
+  font-family: 'Cinzel', serif;
+  padding: 0.32rem 1.1rem 0.32rem 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px #0002;
+  user-select: none;
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  background: rgba(212, 175, 55, 0.10);
-  border-radius: 7px;
-  padding: 0.15rem 0.65rem;
-  font-size: 1.01rem;
-  color: #d4af37;
+  background: #d4af37;
+  color: #232526;
+  font-weight: 700;
+  font-size: 1.18rem;
+}
+
+.user-dropdown-toggle:hover, .user-dropdown-toggle.active {
+  background: #d4af37;
+  color: #232526;
+  box-shadow: 0 2px 10px #d4af37aa;
+}
+.user-dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 110%;
+  min-width: 210px;
+  background: rgba(30,24,18,0.98);
+  border: 2.5px solid #d4af37;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px #000a, 0 0 14px #d4af3730;
+  z-index: 2000;
   font-family: 'Cinzel', serif;
-  text-shadow: 0 1px 4px #000, 0 0 4px #d4af37aa;
+  padding: 0.4rem 0;
+  list-style: none;
+}
+
+.user-dropdown-menu.open {
+  display: block;
+}
+.user-dropdown-menu li {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.user-dropdown-menu a {
+  display: block;
+  color: #f7ecd5;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.16s, color 0.16s, box-shadow 0.16s;
+  font-size: 1.13rem;
+  font-family: 'Cinzel Decorative', cursive;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0.15rem 0;
+  box-shadow: none;
+}
+
+.user-dropdown-menu a:hover, .user-dropdown-menu a.active {
+  background: linear-gradient(90deg, #d4af37 70%, #f7ecd5 100%);
+  color: #232526;
+  box-shadow: 0 2px 8px #d4af3766;
 }
 
 @media (max-width: 700px) {

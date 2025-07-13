@@ -1,5 +1,5 @@
 // src/models/Card.ts
-import { ManaCost, CardAbility } from "../../types/interfaces";
+import { ManaCost, CardAbility, CardAttribute } from "../../types/interfaces";
 import { CardType, Zone, CardState } from "../../types/enums";
 import { Player } from "../players/Player"; // Asegúrate de que la ruta de importación sea correcta
 
@@ -15,6 +15,10 @@ export abstract class Card {
   public manaCost: ManaCost; // Coste de maná para jugar la carta (objeto ManaCost)
   public types: CardType[]; // Tipos de la carta (ej. [CardType.Creature, CardType.Spirit])
   public text: string; // Texto de reglas de la carta (flavor text, habilidades, etc.)
+
+  // NUEVO: atributos y habilidades activadas
+  public attributes: CardAttribute[] = [];
+  public activatedAbilities: CardAbility[] = [];
 
   // Propiedades del estado de la carta en el juego
   public owner: Player; // El jugador propietario original de la carta

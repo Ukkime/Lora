@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Cinzel+Decorative:wght@700&display=swap');
+
+.selector-background {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+
+  background: linear-gradient(135deg, #232526 0%, #414345 100%), url('/assets/img/bg-parchment.jpg');
+  background-size: cover;
+  background-blend-mode: multiply;
+  font-family: 'Cinzel', serif;
+}
+
+.create-card-panel {
+  background: rgba(44, 36, 24, 0.95);
+  border-radius: 14px;
+  border: 2.5px solid #d4af37;
+  padding: 2.2rem 2.1rem 2.2rem 2.1rem;
+  box-shadow: 0 4px 24px 0 #00000050;
+  font-family: 'Cinzel', serif;
+  color: #f7ecd5;
+  max-width: 500px;
+  width: 100%;
+}
+
+.create-card-panel h1 {
+  font-family: 'Cinzel Decorative', serif;
+  color: #d4af37;
+  text-align: center;
+  margin-bottom: 0.7rem;
+  font-size: 2.1rem;
+}
+
+.create-card-panel hr {
+  border: none;
+  border-top: 2px solid #d4af37;
+  margin: 0 0 1.4rem 0;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+label {
+  font-family: 'Cinzel', serif;
+  color: #d4af37;
+  font-size: 1.08rem;
+  margin-bottom: 0.2rem;
+}
+
+.search-input, .mana-input, .filter-select, textarea {
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #d4af37;
+  background: #f7ecd5;
+  color: #232526;
+  font-family: 'Cinzel', serif;
+  font-size: 1.08rem;
+  min-width: 0;
+  width: 100%;
+  margin-bottom: 0.3rem;
+  box-sizing: border-box;
+  transition: border 0.15s, box-shadow 0.15s;
+}
+
+.mana-cost-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.mana-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+  justify-content: center;
+  margin-bottom: 0.1rem;
+}
+
+.mana-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 58px;
+}
+
+.center-row {
+  justify-content: center;
+  margin-top: 0.2rem;
+}
+
+.mana-input {
+  width: 85px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.btn, .btn-primary, .btn-secondary, .btn-danger {
+  font-family: 'Cinzel', serif;
+  border-radius: 8px;
+  border: 1.5px solid #d4af37;
+  background: linear-gradient(120deg, #d4af37 60%, #fffbe6 100%);
+  color: #232526;
+  padding: 0.5rem 1.2rem;
+  font-size: 1.08rem;
+  cursor: pointer;
+  margin-top: 0.3rem;
+  margin-right: 0.5rem;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary {
+  background: linear-gradient(120deg, #d4af37 60%, #fffbe6 100%);
+  color: #232526;
+  font-weight: bold;
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: #232526;
+  color: #d4af37;
+  border: 1.5px solid #d4af37;
+}
+
+.btn-danger {
+  background: #c0392b;
+  color: #fffbe6;
+  border: 1.5px solid #a93226;
+}
+
+.btn:hover, .btn-primary:hover, .btn-secondary:hover, .btn-danger:hover {
+  box-shadow: 0 0 12px 2px #d4af37cc;
+  filter: brightness(1.08);
+}
+
+.success {
+  background: #d4af37;
+  color: #232526;
+  border-radius: 7px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.error {
+  background: #c0392b;
+  color: #fffbe6;
+  border-radius: 7px;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.loyalty-ability-block {
+  background: rgba(44, 36, 24, 0.7);
+  border: 1.5px solid #d4af37;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.create-card-flex-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.preview-panel {
+  background: rgba(44, 36, 24, 0.93);
+  border-radius: 14px;
+  border: 2.5px solid #d4af37;
+  box-shadow: 0 4px 24px 0 #00000030;
+  padding: 1.5rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 270px;
+  max-width: 320px;
+  width: 100%;
+}
+
+.preview-panel h2 {
+  color: #d4af37;
+  font-family: 'Cinzel Decorative', serif;
+  margin-bottom: 1.1rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .create-card-flex-layout {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .preview-panel {
+    margin-top: 1.2rem;
+    min-width: 0;
+    max-width: 98vw;
+    width: 100%;
+  }
+}
+
+:host ::ng-deep image-cropper {
+  display: block;
+  margin: 0 auto 1rem auto;
+  box-shadow: 0 0 12px #d4af37cc, 0 0 0 2px #d4af37;
+  border-radius: 10px;
+  background: rgba(44,36,24,0.85);
+  max-width: 300px;
+  width: 100%;
+}
+
+:host ::ng-deep .cropper {
+  border-radius: 10px;
+  border: 2px solid #d4af37 !important;
+}
+
+.cropper-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .create-card-panel {
+    padding: 1rem 0.2rem;
+    max-width: 98vw;
+  }
+  .mana-cost-group {
+    gap: 0.2rem;
+  }
+  .loyalty-ability-block {
+    padding: 0.5rem;
+  }
+}

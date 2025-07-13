@@ -159,7 +159,7 @@ export class DeckBuilderComponent implements OnInit {
       this.errorMsg = `El mazo debe tener al menos ${this.minDeckSize} cartas.`;
       return;
     }
-    const deckData = { name: this.deckName, cards: this.selectedDeck };
+    const deckData = { name: this.deckName, cards: this.selectedDeck.map(c => c.id) };
     if (this.editingDeckId) {
       this.api.updateDeck(this.editingDeckId, deckData).subscribe({
         next: () => { this.successMsg = 'Mazo actualizado.'; this.loadDecks(); },

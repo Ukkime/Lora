@@ -28,13 +28,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // --- CORS CONFIG CORRECTO ---
-app.use(cors({
-    origin: 'http://localhost:4200',
+app.use(
+  cors({
+    origin: "http://gallifrey.sytes.net:7475",
     credentials: false, // Cambia a true solo si usas cookies
-    allowedHeaders: ['Authorization', 'Content-Type'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-}));
-app.use(express.json());
+    allowedHeaders: ["Authorization", "Content-Type"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  })
+);
+app.use(express.json({ limit: '5mb' })); // Acepta hasta 20MB de JSON
+app.use(express.urlencoded({ limit: '5mb', extended: true })); // Para formularios grandes
 
 // Montar rutas de compra de cartas
 app.use("/api/cards", authenticateToken, cardShopRoutes);

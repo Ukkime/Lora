@@ -1,0 +1,10 @@
+<div class="presentation-container" *ngIf="currentBlock < textBlocks.length">
+  <div class="presentation-text">
+    <ng-container *ngFor="let w of currentWords">
+      <span [ngClass]="{
+        'fade-in': w.visible && !w.fading,
+        'fade-out': w.fading
+      }" class="presentation-word">{{ w.word }} </span>
+    </ng-container>
+  </div>
+</div>

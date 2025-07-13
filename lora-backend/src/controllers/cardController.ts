@@ -12,6 +12,36 @@ import { cardService } from "../services/cardService";
  */
 import { query } from "../db";
 
+/**
+ * Crea una nueva carta en el sistema.
+ * POST /api/cards
+ */
+import fs from 'fs';
+import path from 'path';
+
+export const createCard = async (req: Request, res: Response) => {
+  try {
+    let card = req.body;
+    // Si no hay id, genera uno único
+    if (!card.id) {
+      card.id = `custom_${Date.now()}`;
+    }
+    const filePath = path.join(__dirname, '../data/cards', `${card.id}.json`);
+    // Guardar la carta como JSON
+    fs.writeFileSync(filePath, JSON.stringify(card, null, 2), 'utf8');
+    return res.status(201).json({ message: 'Carta creada', card });
+  } catch (error: any) {
+    console.error('Error al crear carta:', error.message);
+    return res.status(500).json({ error: 'Error al crear carta' });
+  }
+};
+
+/**
+ * Obtiene todas las definiciones de cartas disponibles en el sistema.
+ * Las transforma en un formato más simple y listo para el frontend,
+ * incluyendo propiedades específicas según el tipo base de la carta.
+ * GET /api/cards
+ */
 export const getAllCards = async (req: Request, res: Response) => {
   try {
     const cardsData = cardService.getAllCardDefinitions();
@@ -33,6 +63,7 @@ export const getAllCards = async (req: Request, res: Response) => {
 
     const simpleCards = cardsData.map((cardData) => ({
       id: cardData.id,
+      image: cardData.image,
       name: cardData.name,
       baseType: cardData.baseType,
       manaCost: cardData.manaCost,
@@ -50,6 +81,9 @@ export const getAllCards = async (req: Request, res: Response) => {
         initialLoyalty: cardData.initialLoyalty,
         loyaltyAbilities: cardData.loyaltyAbilities,
       }),
+      // NUEVOS CAMPOS GENERALES
+      attributes: cardData.attributes ?? [],
+      activatedAbilities: cardData.activatedAbilities ?? [],
       // Campo available: true si el usuario la tiene, false si no o si no autenticado
       available: userId ? userCardIds.has(cardData.id) : false,
       price: cardData.price,
@@ -83,9 +117,12 @@ export const getCardById = (req: Request, res: Response) => {
       // Si la carta se encuentra, la transforma en un formato "simple" similar a getAllCards.
       const simpleCard = {
         id: cardData.id,
+        image: cardData.image,
         name: cardData.name,
         baseType: cardData.baseType, // Crucial para el frontend.
         manaCost: cardData.manaCost,
+        attributes: cardData.attributes ?? [],
+        activatedAbilities: cardData.activatedAbilities ?? [],
         text: cardData.text,
         // Nuevos atributos generales
         rarity: cardData.rarity,

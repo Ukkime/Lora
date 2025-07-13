@@ -19,7 +19,14 @@ export class LoginComponent {
   message: string = '';
   error: string = '';
 
+  // disabled by default
+  showPresentation: boolean = false;
+
   constructor(private router: Router, private authService: AuthService) {}
+
+  onPresentationFinished() {
+    this.showPresentation = false;
+  }
 
   toggleMode() {
     this.isRegisterMode = !this.isRegisterMode;
@@ -34,8 +41,8 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe({
       next: (res) => {
         this.message = '¡Login correcto!';
-        if (res && res.token) {
-          localStorage.setItem('token', res.token);
+        if (res && res.token && res.refreshToken) {
+          this.authService.setTokens(res.token, res.refreshToken);
           // Decodificar el username y actualizar el estado global
           try {
             const payload = JSON.parse(atob(res.token.split('.')[1]));

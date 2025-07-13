@@ -1,8 +1,10 @@
 // src/app/app.component.ts
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Needed for ngIf, ngFor
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from "./modules/core/navbar/navbar.component"; // Needed for router-outlet
+import { AuthService } from './modules/core/login/auth.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +13,22 @@ import { NavbarComponent } from "./modules/core/navbar/navbar.component"; // Nee
   standalone: true,
   imports: [CommonModule, RouterModule, NavbarComponent], // Added RouterModule for router-outlet
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Juego de Cartas (Frontend Angular)';
+  isLoggedIn$: any;
+
+  constructor(public authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.isLoggedIn$ = this.authService.user$.pipe(
+      map((user: { username: string | null }) => !!user.username)
+    );
+  }
 }
+
+
+
+
 
   // This method is now obsolete as deck is sent with joinQueue
   // saveDeck(): void {

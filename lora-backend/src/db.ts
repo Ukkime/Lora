@@ -4,6 +4,7 @@ import sqlite3 from "sqlite3"; // SQLite client (callback-based by default)
 import { dbConfig } from "./config/db-config"; // Import your DB configuration
 
 import bcrypt from "bcrypt";
+import { readFile } from 'fs/promises';
 
 // Define the database connection variable
 let dbConnection: mysql.Connection | sqlite3.Database | null = null;
@@ -45,6 +46,7 @@ export const initializeDatabase = async () => {
       await createUsersTableSQLite(); // Ensure table exists
       await createUserCardsTableSQLite(); // Ensure user_cards table
       await createDecksTableSQLite(); // Ensure decks table
+      await createRefreshTokensTableSQLite(); // NEW: Ensure refresh_tokens table
     } else {
       throw new Error("Unsupported database type specified in config.");
     }
@@ -118,94 +120,106 @@ export async function run(sql: string, params?: any[]): Promise<any> {
 
 // --- Table Creation and Seeding Logic ---
 
+// --- Refresh Tokens Table Creation ---
+async function createRefreshTokensTableMySQL() {
+  const sql = await readFile(
+    __dirname + '/data/sql/refresh_tokens_table.mysql.sql',
+    'utf-8'
+  );
+  await query(sql);
+  console.log("MySQL 'refresh_tokens' table ensured.");
+}
+
+async function createRefreshTokensTableSQLite() {
+  const sql = await readFile(
+    __dirname + '/data/sql/refresh_tokens_table.sqlite.sql',
+    'utf-8'
+  );
+  await query(sql);
+  console.log("SQLite 'refresh_tokens' table ensured.");
+}
+
+// --- Refresh Token Operations ---
+
+export async function insertRefreshToken(userId: number, token: string, expiresAt: string, userAgent?: string) {
+  const sql = `INSERT INTO refresh_tokens (user_id, token, expires_at, user_agent) VALUES (?, ?, ?, ?)`;
+  return await run(sql, [userId, token, expiresAt, userAgent || null]);
+}
+
+export async function findRefreshToken(token: string) {
+  const sql = `SELECT * FROM refresh_tokens WHERE token = ?`;
+  const rows = await query(sql, [token]);
+  return rows && rows.length > 0 ? rows[0] : null;
+}
+
+export async function revokeRefreshToken(token: string) {
+  const sql = `UPDATE refresh_tokens SET revoked = 1 WHERE token = ?`;
+  return await run(sql, [token]);
+}
+
+export async function revokeAllRefreshTokensForUser(userId: number) {
+  const sql = `UPDATE refresh_tokens SET revoked = 1 WHERE user_id = ?`;
+  return await run(sql, [userId]);
+}
+
+export async function updateRefreshTokenExpiry(token: string, newExpiry: string) {
+  const sql = `UPDATE refresh_tokens SET expires_at = ? WHERE token = ?`;
+  return await run(sql, [newExpiry, token]);
+}
+
 // Decks Table Creation
 async function createDecksTableMySQL() {
-  const sql = `CREATE TABLE IF NOT EXISTS decks (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    cards_json TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-  )`;
+  const sql = await readFile(
+    __dirname + '/data/sql/decks_table.mysql.sql',
+    'utf-8'
+  );
   await query(sql);
+  console.log("MySQL 'decks' table ensured.");
 }
 
 async function createDecksTableSQLite() {
-  const sql = `CREATE TABLE IF NOT EXISTS decks (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    name TEXT NOT NULL,
-    cards_json TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-  )`;
+  const sql = await readFile(
+    __dirname + '/data/sql/decks_table.sqlite.sql',
+    'utf-8'
+  );
   await query(sql);
+  console.log("SQLite 'decks' table ensured.");
 }
 
 async function createUserCardsTableMySQL() {
-  const createTableSql = `
-    CREATE TABLE IF NOT EXISTS user_cards (
-      user_id INT NOT NULL,
-      card_id VARCHAR(255) NOT NULL,
-      PRIMARY KEY (user_id, card_id),
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (card_id) REFERENCES cards(id)
-    );
-  `;
-  await query(createTableSql);
+  const sql = await readFile(
+    __dirname + '/data/sql/user_cards_table.mysql.sql',
+    'utf-8'
+  );
+  await query(sql);
   console.log("MySQL 'user_cards' table ensured.");
 }
 
 async function createUserCardsTableSQLite() {
-  const createTableSql = `
-    CREATE TABLE IF NOT EXISTS user_cards (
-      user_id INTEGER NOT NULL,
-      card_id TEXT NOT NULL,
-      PRIMARY KEY (user_id, card_id),
-      FOREIGN KEY (user_id) REFERENCES users(id),
-      FOREIGN KEY (card_id) REFERENCES cards(id)
-    );
-  `;
-  await run(createTableSql);
+  const sql = await readFile(
+    __dirname + '/data/sql/user_cards_table.sqlite.sql',
+    'utf-8'
+  );
+  await run(sql);
   console.log("SQLite 'user_cards' table ensured.");
 }
 
 
 async function createUsersTableMySQL() {
-  const createTableSql = `
-    CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        isAdmin BOOLEAN DEFAULT FALSE,
-        credits INT DEFAULT 100
-    );
-    ALTER TABLE users ADD COLUMN IF NOT EXISTS credits INT DEFAULT 100; // Para añadir si ya existe
-    `;
-  await query(createTableSql);
+  const sql = await readFile(
+    __dirname + '/data/sql/users_table.mysql.sql',
+    'utf-8'
+  );
+  await query(sql);
   console.log("MySQL 'users' table ensured.");
 }
 
 async function createUsersTableSQLite() {
-  const createTableSql = `
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
-        isAdmin INTEGER DEFAULT 0,
-        credits INTEGER DEFAULT 100
-    );
-    -- SQLite no soporta ALTER IF NOT EXISTS, así que intentamos añadir la columna y capturamos el error si ya existe
-    PRAGMA foreign_keys=off;
-    BEGIN TRANSACTION;
-    ALTER TABLE users ADD COLUMN credits INTEGER DEFAULT 100;
-    COMMIT;
-    PRAGMA foreign_keys=on;
-    `;
-  await run(createTableSql); // Use run for DML in SQLite
+  const sql = await readFile(
+    __dirname + '/data/sql/users_table.sqlite.sql',
+    'utf-8'
+  );
+  await run(sql);
   console.log("SQLite 'users' table ensured.");
 }
 

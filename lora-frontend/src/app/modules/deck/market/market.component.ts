@@ -130,11 +130,13 @@ export class MercadoComponent implements OnInit, OnDestroy {
     let formatted = '';
     if (!manaCost) return '{0}';
     for (const color in manaCost) {
+      const value = manaCost[color as keyof ManaCost];
       if (
         manaCost.hasOwnProperty(color) &&
-        manaCost[color as keyof ManaCost] !== undefined
+        value !== undefined &&
+        value > 0
       ) {
-        formatted += `{${color}:${manaCost[color as keyof ManaCost]}}`;
+        formatted += `{${color}:${value}}`;
       }
     }
     return formatted || '{0}';

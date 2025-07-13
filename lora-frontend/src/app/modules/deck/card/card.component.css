@@ -109,7 +109,7 @@
 
 /* --- Estilos del Costo de Maná --- */
 .card-mana-cost {
-  background-color: #6a5acd; /* Azul real para el símbolo de maná */
+  background-color: #444349; /* Azul real para el símbolo de maná */
   color: white;
   padding: 1px 2px;
   border-radius: 50%; /* Lo hace circular */
@@ -127,8 +127,8 @@
 /* --- Marco de la Imagen de la Carta --- */
 .card-image-frame {
   width: calc(100% + 20px); /* Ocupa todo el ancho del contenedor + padding */
-  height: 80px; /* Altura fija para la imagen, ajustada para encajar en 200px de alto */
-  margin: 5px -10px 10px -10px; /* Margen negativo para desbordar padding y llenar el borde */
+  height: 110px; /* Altura fija para la imagen, ajustada para encajar en 200px de alto */
+  margin: 0px -10px 0px -10px; /* Margen negativo para desbordar padding y llenar el borde */
   overflow: hidden; /* Importante para que la imagen no se salga del marco si es más grande */
   border-radius: 0px; /* Redondea ligeramente las esquinas de la imagen */
   border: 0px solid #aaa; /* Un pequeño borde alrededor de la imagen */
@@ -141,6 +141,8 @@
   height: 100%;
   object-fit: cover; /* Recorta la imagen para que cubra el marco sin distorsionarse */
   display: block; /* Elimina espacio extra debajo de la imagen */
+  /* alinea arriba */
+  align-self: flex-start;
 }
 
 /* --- Estilos del Tipo de Carta --- */
@@ -148,19 +150,20 @@
   font-style: italic;
   font-size: 0.7em; /* Tamaño de fuente para el tipo de carta */
   color: #666;
-  margin-bottom: 5px; /* Ajustado para dejar espacio con la imagen/texto */
+  /* margin-bottom: 5px; /* Ajustado para dejar espacio con la imagen/texto */
   text-align: center;
-  border-bottom: 1px dashed #eee;
-  padding-bottom: 5px;
+  /* border-bottom: 1px dashed #eee; */
+   padding-bottom: 5px;
 }
 
 /* --- Estilos del Texto de la Carta --- */
 .card-text {
-  font-size: 0.6em; /* Tamaño de fuente para el texto */
+  font-size: 0.6em;
   text-align: justify;
-  flex-grow: 1; /* Permite que el texto empuje las estadísticas hacia abajo */
-  overflow: auto; /* Oculta el desbordamiento si el texto es demasiado largo */
-  margin-bottom: 5px; /* Ajustado para dar espacio antes de las stats */
+  flex-grow: 1;
+  overflow: hidden;
+  color: #413e3a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .card-text p {
@@ -169,13 +172,95 @@
   color: #413e3a !important;
 }
 
+/* --- ATRIBUTOS SOBRE LA IMAGEN (abajo, centrados) --- */
+.card-attributes-over-image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 4px;
+  z-index: 2;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  pointer-events: none;
+  padding-right: 5px;
+}
+.card-attributes-over-image .attribute-chip {
+  pointer-events: auto;
+  background: #efe8d7e6;
+  border: 1px solid #b3a07a;
+  border-radius: 4px;
+  padding: 2px 3px;
+  font-size: 0.65em;
+  color: #413e3a;
+  box-shadow: 1px 1px 2px #d9d0c1;
+  margin-bottom: 2px;
+  cursor: help;
+  transition: background 0.2s;
+}
+
+
+/* --- ATRIBUTOS (chips) --- */
+.card-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 5px;
+  font-size: 0.6em;
+  color: #413e3a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+
+/* --- HABILIDADES ACTIVADAS --- */
+.card-activated-abilities {
+  font-size: 0.6em;
+  color: #413e3a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.ability-title {
+  font-weight: bold;
+  color: #817163;
+}
+.card-activated-abilities ul {
+  margin: 0;
+}
+.card-activated-abilities li {
+  line-height: 1;
+  color: #413e3a;
+}
+.ability-name {
+  font-weight: 700;
+  color: #2b2927;
+}
+.ability-mana {
+  font-style: italic;
+  color: #836f48;
+  margin-left: 2px;
+}
+.ability-desc {
+  color: #413e3a;
+}
+
+.ability-list {
+  padding-left: 0px !important;
+  padding: 2px 0 2px 0;
+  margin: 0;
+  list-style-type: none;
+  line-height: 1.1;
+}
+
 /* --- Estilos de las Estadísticas (Poder/Resistencia) --- */
 .card-stats {
   font-weight: bold;
-  font-size: 0.8em; /* Tamaño de fuente ajustado para las stats */
+  font-size: 0.6em; /* Tamaño de fuente ajustado para las stats */
   text-align: right;
-  padding-top: 5px;
-  border-top: 1px solid #ddd;
+  padding-top: 00px;
   margin-top: auto; /* Empuja las estadísticas al final del flex-container si hay espacio */
   font-family: 'Cinzel', serif;
 }

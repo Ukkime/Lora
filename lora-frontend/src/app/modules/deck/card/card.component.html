@@ -21,22 +21,45 @@
   *ngIf="_card"
   (mouseenter)="raiseIndex()"
   (mouseleave)="resetIndex()"
+
+  [style.transform]="'scale(' + _scale + ')'"
 >
   <div class="card-header">
     <span class="card-name">{{ _card.name }}</span>
     <span class="card-mana-cost">{{ _card.formattedManaCost }}</span>
   </div>
-  <div class="card-image-frame">
+  <div class="card-image-frame" style="position: relative;">
     <img
-      src="https://picsum.photos/200/300?random={{ _card.id }}"
+      [src]="_card.image && _card.image.length > 0 ? _card.image : 'assets/img/default_art.png'"
       [alt]="_card.name"
       class="card-image"
     />
+    <!-- ATRIBUTOS SOBRE LA IMAGEN, ABAJO -->
+    <div *ngIf="_card.attributes && _card.attributes.length > 0" class="card-attributes-over-image">
+      <span class="attribute-chip" *ngFor="let attr of _card.attributes" [title]="attr.description">
+        {{ attr.name }}
+      </span>
+    </div>
   </div>
-  <div class="card-type">{{ _card.baseType }}</div>
+  <div class="card-type">{{ _card.baseType }} - {{ _card.faction | titlecase}}</div>
+
   <div class="card-text">
     <p>{{ _card.text }}</p>
   </div>
+
+  <!-- HABILIDADES ACTIVADAS -->
+  <div *ngIf="_card.activatedAbilities && _card.activatedAbilities.length > 0" class="card-activated-abilities">
+    <!-- <div class="ability-title">Habilidades activadas:</div> -->
+    <ng-template #cardComponentRef letCardComponent=CardComponent></ng-template>
+<ul class="ability-list">
+  <li *ngFor="let ability of _card.activatedAbilities">
+    <span class="ability-name">{{ ability.name }}</span>
+    <span class="ability-mana" *ngIf="ability.manaCost">{{ CardClass.formatManaCost(ability.manaCost) }}</span>
+    <span class="ability-desc">: {{ ability.description }}</span>
+  </li>
+</ul>
+  </div>
+
   <div
     *ngIf="_card.power !== undefined && _card.toughness !== undefined"
     class="card-stats"

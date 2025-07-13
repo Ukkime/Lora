@@ -13,6 +13,31 @@ export class AuthService {
   }
   private apiUrl = 'http://localhost:3000/api/auth'; // Prefijo correcto para autenticación
 
+  // === MÉTODOS PARA TOKENS ===
+  getAccessToken(): string | null {
+    return localStorage.getItem('token');
+  }
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refreshToken');
+  }
+  setTokens(token: string, refreshToken: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('refreshToken', refreshToken);
+    this.initUserFromToken();
+  }
+  clearTokens() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+  }
+
+  /**
+   * Llama al backend para renovar tokens usando el refresh token
+   */
+  refreshTokens(): Observable<{ token: string, refreshToken: string }> {
+    const refreshToken = this.getRefreshToken();
+    return this.http.post<{ token: string, refreshToken: string }>(`${this.apiUrl}/refresh`, { refreshToken });
+  }
+
   /**
    * Inicializa el usuario desde el token si existe al crear el servicio
    */
@@ -51,8 +76,48 @@ export class AuthService {
     this.userSubject.next({ username: null, credits: null });
   }
 
+  /**
+   * Llama al backend para hacer logout y revocar el refresh token
+   */
+  logout(): Observable<any> {
+    const refreshToken = this.getRefreshToken();
+    return this.http.post(`${this.apiUrl}/logout`, { refreshToken }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Obtiene sesiones activas del usuario
+   */
+  getSessions(): Observable<any[]> {
+    const token = this.getAccessToken();
+    return this.http.get<any[]>(`${this.apiUrl}/sessions`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Revoca todas las sesiones activas (logout global)
+   */
+  logoutAllSessions(): Observable<any> {
+    const token = this.getAccessToken();
+    return this.http.post(`${this.apiUrl}/logout-all`, {}, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Revoca una sesión individual
+   */
+  revokeSession(sessionId: number): Observable<any> {
+    const token = this.getAccessToken();
+    return this.http.post(`${this.apiUrl}/revoke-session`, { sessionId }, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(catchError(this.handleError));
+  }
+
   login(username: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { username, password })
+    return this.http.post<{ token: string, refreshToken: string }>(`${this.apiUrl}/login`, { username, password })
       .pipe(catchError(this.handleError));
   }
 

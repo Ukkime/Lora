@@ -6,7 +6,7 @@ import { SpellCard } from "../models/cards/SpellCard"; // Asegúrate de que esta
 import { PlaneswalkerCard, LoyaltyAbility } from '../models/cards/PlaneswalkerCard'; // Importa PlaneswalkerCard y su interfaz
 import { EnchantmentCard } from '../models/cards/EnchantmentCard'; // Importa EnchantmentCard
 import { ManaColor, CardType } from "../types/enums"; // Importa CardType para mapear los tipos de carta
-import { ManaCost } from "../types/interfaces";
+import { ManaCost, CardAbility, CardAttribute } from "../types/interfaces";
 import { Player } from "../models/players/Player"; // Necesario para el "dummy player" al instanciar cartas
 import fs from "fs"; // Módulo de Node.js para interactuar con el sistema de archivos
 import path from "path"; // Módulo de Node.js para trabajar con rutas de archivos
@@ -17,6 +17,7 @@ import { ArtifactCard } from "../models/cards/ArtifactCard";
  * Esta interfaz asegura que los JSON que leemos cumplen con un contrato.
  */
 export interface CardJsonData {
+  image?: string;
   id: string;
   name: string;
   baseType:
@@ -37,6 +38,9 @@ export interface CardJsonData {
   rarity?: string;
   faction?: string;
   price?: number; // Precio de la carta (tokens)
+  // CAMPOS NUEVOS PARA SOPORTE COMPLETO
+  attributes?: CardAttribute[];
+  activatedAbilities?: CardAbility[];
 }
 
 /**

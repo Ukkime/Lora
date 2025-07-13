@@ -4,3 +4,5 @@ setup_magic_game.ps1
 /lora-backend/node_modules
 /lora-frontend/.angular/cache
 /lora-frontend/node_modules
+lora-frontend.tar
+lora-backend.tar

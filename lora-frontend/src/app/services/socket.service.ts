@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment'; // For backend URL
 export class SocketService implements OnDestroy {
   private socket: Socket;
   private readonly BACKEND_URL =
-    environment.backendUrl || 'http://localhost:3000'; // Or directly 'http://localhost:3000'
+    environment.backendUrl || 'http://localhost:3000'; // Or directly 'http://gallifrey.sytes.net:3000'
 
   public onConnect$: Observable<any>;
   public onDisconnect$: Observable<any>;

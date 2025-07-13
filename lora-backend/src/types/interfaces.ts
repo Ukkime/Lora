@@ -15,8 +15,18 @@ export interface ManaCost {
 export interface CardAbility {
   name: string;
   description: string;
+  manaCost?: ManaCost; // Coste de maná para activar la habilidad (si aplica)
   // Opcional: una función para ejecutar la habilidad
   // execute?: (game: Game, sourceCard: Card, target?: any) => void;
+}
+
+/**
+ * Representa un atributo especial de una carta (como "prisa", "toque mortal", etc.)
+ */
+export interface CardAttribute {
+  code: string; // Ej: "haste", "deathtouch"
+  name: string; // Ej: "Prisa", "Toque mortal"
+  description: string;
 }
 
 /**
